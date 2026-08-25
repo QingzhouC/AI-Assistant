@@ -20,72 +20,67 @@ main { min-height:100vh; display:grid; grid-template-rows:64px 1fr auto; }
 .stage-copy>p:last-child { color:#777772; font-size:13px; margin:0; }
 .motion-note { position:absolute; right:32px; bottom:20px; margin:0; font:10px/1 ui-monospace,monospace; letter-spacing:.12em; color:#8b8b86; text-transform:uppercase; }
 .assistant { position:relative; z-index:1; width:min(36vw,330px); min-width:230px; }
-.assistant-svg { display:block; width:100%; overflow:visible; }
-
-/* Original monochrome construction */
-.assistant-svg path { vector-effect:non-scaling-stroke; stroke:#111; stroke-width:1.65; stroke-linejoin:round; stroke-linecap:round; }
-.limb,.hand,.torso,.belly-panel,.leg,.ear,.helmet,.neck { fill:#fff; }
-.boot,.ear-cap,.chest-logo path { fill:#090909; }
-.panel-slot { fill:#090909; stroke-width:2.2!important; }
-.visor-frame { fill:#fafafa; }
-.visor { fill:#e8e8e8; }
-.visor-inner-line { fill:none; opacity:.65; }
-.visor-reflection path { fill:#fff; stroke:none; opacity:.42; }
-.dot { fill:#151515; transform-box:fill-box; transform-origin:center; }
-.neck { fill:#fff; }
-.assistant-head,.assistant-body,.visor-mechanism,.eye,.dot { transform-box:fill-box; transform-origin:center; }
-
-/* Idle: asynchronous, almost imperceptible life */
-.assistant-float { animation:idle-float 3.65s cubic-bezier(.45,0,.55,1) infinite; transform-origin:center; }
-.assistant-head { animation:head-attention 9.4s ease-in-out infinite; transform-origin:50% 85%; }
-.assistant.is-blinking .eye { transform:scaleY(.06); transition:transform 70ms ease-in; }
-.eye { transition:transform 180ms ease, opacity 180ms ease; }
+.assistant>svg { display:block; width:100%; height:auto; overflow:visible; animation:idle-float 3.65s cubic-bezier(.45,0,.55,1) infinite; }
+.assistant #left-ear,.assistant #right-ear,.assistant #head,.assistant #visor,.assistant #eye-system {
+  transform-box:view-box;
+  transform-origin:580px 740px;
+  transition:transform 280ms ease;
+}
+.assistant #head,.assistant #visor,.assistant #eye-system,.assistant #left-ear,.assistant #right-ear { animation:head-attention 9.4s ease-in-out infinite; }
+.assistant #eye-left,.assistant #eye-right { transform-box:fill-box; transform-origin:center; transition:transform 180ms ease; }
+.assistant-dot { transform-box:fill-box; transform-origin:center; }
+.assistant.is-blinking #eye-left,.assistant.is-blinking #eye-right { transform:scaleY(.06); transition-duration:70ms; }
 
 /* Listening */
-.assistant--listening .assistant-head { animation:none; transform:translateY(2px) rotate(-1.4deg); }
-.assistant--listening .assistant-body { transform:translateY(-1px) scaleY(1.008); }
-.assistant--listening .eye-left { transform:translateX(2px) scale(1.07); }
-.assistant--listening .eye-right { transform:translateX(-2px) scale(1.07); }
+.assistant--listening #head,.assistant--listening #visor,.assistant--listening #eye-system,
+.assistant--listening #left-ear,.assistant--listening #right-ear { animation:none; transform:translateY(2px) rotate(-1.2deg); }
+.assistant--listening #eye-left { transform:translateX(3px) scale(1.04); }
+.assistant--listening #eye-right { transform:translateX(-3px) scale(1.04); }
 
 /* Understanding */
-.assistant--understanding .assistant-head { animation:none; transform:translateY(1px); }
-.assistant--understanding .eye-left { animation:understand-left 1.5s ease-in-out infinite; }
-.assistant--understanding .eye-right { animation:understand-right 1.5s ease-in-out infinite; }
+.assistant--understanding #head,.assistant--understanding #visor,.assistant--understanding #eye-system,
+.assistant--understanding #left-ear,.assistant--understanding #right-ear { animation:none; transform:translateY(1px); }
+.assistant--understanding #eye-left { animation:understand-left 1.5s ease-in-out infinite; }
+.assistant--understanding #eye-right { animation:understand-right 1.5s ease-in-out infinite; }
 
 /* Thinking */
-.assistant--thinking .assistant-head { animation:none; transform:translateY(1px) rotate(.6deg); }
-.assistant--thinking .dot { animation:think-dot 1.65s ease-in-out infinite; }
-.assistant--thinking .eye-right .dot { animation-delay:calc(-.42s + var(--delay, 0s)); }
+.assistant--thinking #head,.assistant--thinking #visor,.assistant--thinking #eye-system,
+.assistant--thinking #left-ear,.assistant--thinking #right-ear { animation:none; transform:translateY(1px) rotate(.55deg); }
+.assistant--thinking .assistant-dot { animation:think-dot 1.65s ease-in-out infinite; }
+.assistant--thinking #eye-right .assistant-dot { animation-delay:calc(-.42s + var(--delay, 0s)); }
 .assistant--thinking .dot-c0 { --delay:0s }.assistant--thinking .dot-c1 { --delay:-.1s }.assistant--thinking .dot-c2 { --delay:-.2s }
 .assistant--thinking .dot-c3 { --delay:-.3s }.assistant--thinking .dot-c4 { --delay:-.4s }.assistant--thinking .dot-c5 { --delay:-.5s }
 
 /* Searching */
-.assistant--searching .assistant-head { animation:none; }
-.assistant--searching .eye-system { animation:search-gaze 3.1s cubic-bezier(.45,0,.55,1) infinite; transform-box:fill-box; transform-origin:center; }
-.assistant--searching .dot { animation:search-focus 3.1s ease-in-out infinite; }
+.assistant--searching #head,.assistant--searching #visor,.assistant--searching #left-ear,.assistant--searching #right-ear { animation:none; }
+.assistant--searching #eye-system { animation:search-gaze 3.1s cubic-bezier(.45,0,.55,1) infinite; transform-box:fill-box; transform-origin:center; }
+.assistant--searching .assistant-dot { animation:search-focus 3.1s ease-in-out infinite; }
 
 /* Generating */
-.assistant--generating .assistant-head { animation:none; }
-.assistant--generating .dot { animation:generate-dot 1.9s ease-in-out infinite; }
+.assistant--generating #head,.assistant--generating #visor,.assistant--generating #eye-system,
+.assistant--generating #left-ear,.assistant--generating #right-ear { animation:none; }
+.assistant--generating .assistant-dot { animation:generate-dot 1.9s ease-in-out infinite; }
 .assistant--generating .dot-r0 { --row-delay:0s }.assistant--generating .dot-r1 { --row-delay:-.1s }.assistant--generating .dot-r2 { --row-delay:-.2s }
 .assistant--generating .dot-r3 { --row-delay:-.3s }.assistant--generating .dot-r4 { --row-delay:-.4s }.assistant--generating .dot-r5 { --row-delay:-.5s }
 .assistant--generating .dot-r6 { --row-delay:-.6s }.assistant--generating .dot-r7 { --row-delay:-.7s }.assistant--generating .dot-r8 { --row-delay:-.8s }
 
 /* Tool calling */
-.assistant--tool-calling .assistant-head { animation:none; }
-.assistant--tool-calling .visor-mechanism { animation:visor-engage 1.75s cubic-bezier(.4,0,.2,1) infinite; }
-.assistant--tool-calling .dot { animation:tool-scan 1.75s ease-in-out infinite; }
+.assistant--tool-calling #head,.assistant--tool-calling #eye-system,.assistant--tool-calling #left-ear,.assistant--tool-calling #right-ear { animation:none; }
+.assistant--tool-calling #visor { animation:visor-engage 1.75s cubic-bezier(.4,0,.2,1) infinite; }
+.assistant--tool-calling .assistant-dot { animation:tool-scan 1.75s ease-in-out infinite; }
 
 /* Feedback states */
-.assistant--success .assistant-float { animation:success-body .72s cubic-bezier(.3,.7,.3,1) both; }
-.assistant--success .assistant-head { animation:none; }
-.assistant--success .dot { animation:success-eye .72s ease both; opacity:.1; }
+.assistant--success>svg { animation:success-body .72s cubic-bezier(.3,.7,.3,1) both; }
+.assistant--success #head,.assistant--success #visor,.assistant--success #eye-system,
+.assistant--success #left-ear,.assistant--success #right-ear { animation:none; }
+.assistant--success .assistant-dot { animation:success-eye .72s ease both; opacity:.1; }
 .assistant--success .dot-c0.dot-r5,.assistant--success .dot-c1.dot-r4,
 .assistant--success .dot-c2.dot-r3,.assistant--success .dot-c3.dot-r3,
 .assistant--success .dot-c4.dot-r4,.assistant--success .dot-c5.dot-r5 { opacity:1; }
-.assistant--error .assistant-float { animation:none; }
-.assistant--error .assistant-head { animation:error-head .82s ease both; }
-.assistant--error .dot { animation:error-eye .82s ease both; opacity:.1; }
+.assistant--error>svg { animation:none; }
+.assistant--error #head,.assistant--error #visor,.assistant--error #eye-system,
+.assistant--error #left-ear,.assistant--error #right-ear { animation:error-head .82s ease both; }
+.assistant--error .assistant-dot { animation:error-eye .82s ease both; opacity:.1; }
 .assistant--error .dot-c0.dot-r2,.assistant--error .dot-c1.dot-r3,
 .assistant--error .dot-c2.dot-r4,.assistant--error .dot-c3.dot-r4,
 .assistant--error .dot-c4.dot-r3,.assistant--error .dot-c5.dot-r2,
@@ -93,9 +88,10 @@ main { min-height:100vh; display:grid; grid-template-rows:64px 1fr auto; }
 .assistant--error .dot-c4.dot-r5,.assistant--error .dot-c5.dot-r6 { opacity:1; }
 
 /* Waiting */
-.assistant--waiting .assistant-float { animation:waiting-breathe 4.1s ease-in-out infinite; }
-.assistant--waiting .assistant-head { animation:none; transform:rotate(1deg); }
-.assistant--waiting .eye-system { transform:translateX(4px); transform-box:fill-box; transform-origin:center; }
+.assistant--waiting>svg { animation:waiting-breathe 4.1s ease-in-out infinite; }
+.assistant--waiting #head,.assistant--waiting #visor,.assistant--waiting #eye-system,
+.assistant--waiting #left-ear,.assistant--waiting #right-ear { animation:none; transform:rotate(1deg); }
+.assistant--waiting #eye-system { transform:translateX(4px) rotate(1deg); }
 
 .controls { display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid var(--line); background:#efefec; }
 .controls button { appearance:none; text-align:left; background:transparent; border:0; border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:14px 18px 13px; min-height:62px; color:#777772; cursor:pointer; transition:background 180ms ease,color 180ms ease; }
@@ -115,13 +111,13 @@ main { min-height:100vh; display:grid; grid-template-rows:64px 1fr auto; }
 @keyframes search-gaze { 0%,12%,44%,56%,88%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
 @keyframes search-focus { 0%,100%{opacity:.72} 50%{opacity:1} }
 @keyframes generate-dot { 0%,100%{opacity:.28;transform:translateY(-1px) scale(.88)} 48%{opacity:1;transform:translateY(1px) scale(1)} }
-.assistant--generating .dot { animation-delay:var(--row-delay); }
+.assistant--generating .assistant-dot { animation-delay:var(--row-delay); }
 @keyframes visor-engage { 0%,18%,100%{transform:translateY(0)} 28%,80%{transform:translateY(1.5px)} }
 @keyframes tool-scan { 0%,100%{opacity:.35} 48%{opacity:1} }
 @keyframes success-body { 0%,100%{transform:translateY(0) scale(1)} 48%{transform:translateY(-3px) scale(1.018)} }
-@keyframes success-eye { 0%,100%{transform:translateY(0);opacity:1} 45%,65%{transform:translateY(-3px);opacity:.9} }
+@keyframes success-eye { 0%,100%{transform:translateY(0)} 45%,65%{transform:translateY(-3px)} }
 @keyframes error-head { 0%,100%{transform:rotate(0) translateY(0)} 40%,70%{transform:rotate(-1deg) translateY(3px)} }
-@keyframes error-eye { 0%,100%{transform:scale(1)} 42%,70%{transform:scale(.72);opacity:.75} }
+@keyframes error-eye { 0%,100%{transform:scale(1)} 42%,70%{transform:scale(.72)} }
 @keyframes waiting-breathe { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-1.5px)} }
 
 @media (max-width:760px) {
@@ -139,7 +135,8 @@ main { min-height:100vh; display:grid; grid-template-rows:64px 1fr auto; }
 
 @media (prefers-reduced-motion:reduce) {
   .assistant *,.status-dot { animation:none!important; transition:none!important; }
-  .assistant--listening .assistant-head { transform:rotate(-1deg); }
+  .assistant--listening #head,.assistant--listening #visor,.assistant--listening #eye-system,
+  .assistant--listening #left-ear,.assistant--listening #right-ear { transform:rotate(-1deg); }
   .assistant--thinking .dot-c0,.assistant--thinking .dot-c5,
   .assistant--generating .dot-r0,.assistant--generating .dot-r8 { opacity:.42; }
 }
