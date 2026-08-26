@@ -116,7 +116,7 @@ export default function Home() {
   return (
     <main>
       <header className="topbar">
-        <div className="brand"><span className="brand-mark" />Assistant Motion System</div>
+        <div className="brand"><span className="brand-mark" />AI Assistant</div>
         <div className="topbar-actions">
           <a className="output-preview-link" href="/output">内容界面预览</a>
           <div className="status"><span className="status-dot" />{active.label}</div>

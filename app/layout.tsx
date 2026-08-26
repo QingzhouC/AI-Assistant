@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Assistant Motion System",
+  title: "AI Assistant",
   description: "A calm, mechanical and alive state system for an AI assistant.",
   icons: { icon: "/favicon.svg" },
 };
